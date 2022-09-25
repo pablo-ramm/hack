@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+    <script Set-Cookie: flavor=choco; SameSite=None; Secure
+        src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+
+</head>
+
+<body>
+    <div style="width:300px; height: 400px" id="map"></div>
+    <div class="card-body">
+        <h5 class="card-title">
+            <%= user.name %>
+        </h5>
+        <p class="card-text">
+            <%= user.location %>
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted">
+            <%= user.email %>
+        </li>
+        <li class="list-group-item text-muted">
+            <%= user.category %>
+        </li>
+    </ul>
+    
+</body>
+<script>
+    const user = <%- JSON.stringify(user) %>
+</script>
+
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoicGFibG8tcmFtIiwiYSI6ImNremVjZzNnMDAwMTQycHFnYWtqdmxmeXEifQ.GwuaqSDgpqCgQdlruubw9A';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11', //this code just creates a generic map
+        center: user.geometry.coordinates,
+        zoom: 5
+    });
+
+    new mapboxgl.Marker()
+    .setLngLat([user.geometry.coordinates[0], user.geometry.coordinates[1]])
+    .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+            .setHTML(
+                `<h3>${user.name}</h3>`
+            )
+    )
+    .addTo(map)
+</script>
+
+</html>
